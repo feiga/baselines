@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{b3ba4234-20ff-4103-af40-e1b9bf5fb7c3}</ProjectGuid>
+    <ProjectHome />
+    <StartupFile>setup.py</StartupFile>
+    <SearchPath />
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <InterpreterId>Global|PythonCore|3.6</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup>
+    <VisualStudioVersion Condition=" '$(VisualStudioVersion)' == '' ">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="baselines\a2c\a2c.py" />
+    <Compile Include="baselines\a2c\policies.py" />
+    <Compile Include="baselines\a2c\run_atari.py" />
+    <Compile Include="baselines\a2c\utils.py" />
+    <Compile Include="baselines\a2c\__init__.py" />
+    <Compile Include="baselines\acer\acer_simple.py" />
+    <Compile Include="baselines\acer\buffer.py" />
+    <Compile Include="baselines\acer\policies.py" />
+    <Compile Include="baselines\acer\run_atari.py" />
+    <Compile Include="baselines\acer\__init__.py" />
+    <Compile Include="baselines\acktr\acktr_cont.py" />
+    <Compile Include="baselines\acktr\acktr_disc.py" />
+    <Compile Include="baselines\acktr\kfac.py" />
+    <Compile Include="baselines\acktr\kfac_utils.py" />
+    <Compile Include="baselines\acktr\policies.py" />
+    <Compile Include="baselines\acktr\run_atari.py" />
+    <Compile Include="baselines\acktr\run_mujoco.py" />
+    <Compile Include="baselines\acktr\utils.py" />
+    <Compile Include="baselines\acktr\value_functions.py" />
+    <Compile Include="baselines\acktr\__init__.py" />
+    <Compile Include="baselines\bench\benchmarks.py" />
+    <Compile Include="baselines\bench\monitor.py" />
+    <Compile Include="baselines\bench\__init__.py" />
+    <Compile Include="baselines\common\atari_wrappers.py" />
+    <Compile Include="baselines\common\cg.py" />
+    <Compile Include="baselines\common\cmd_util.py" />
+    <Compile Include="baselines\common\console_util.py" />
+    <Compile Include="baselines\common\dataset.py" />
+    <Compile Include="baselines\common\distributions.py" />
+    <Compile Include="baselines\common\filters.py" />
+    <Compile Include="baselines\common\math_util.py" />
+    <Compile Include="baselines\common\misc_util.py" />
+    <Compile Include="baselines\common\mpi_adam.py" />
+    <Compile Include="baselines\common\mpi_fork.py" />
+    <Compile Include="baselines\common\mpi_moments.py" />
+    <Compile Include="baselines\common\mpi_running_mean_std.py" />
+    <Compile Include="baselines\common\runners.py" />
+    <Compile Include="baselines\common\running_mean_std.py" />
+    <Compile Include="baselines\common\running_stat.py" />
+    <Compile Include="baselines\common\schedules.py" />
+    <Compile Include="baselines\common\segment_tree.py" />
+    <Compile Include="baselines\common\tests\test_schedules.py" />
+    <Compile Include="baselines\common\tests\test_segment_tree.py" />
+    <Compile Include="baselines\common\tests\test_tf_util.py" />
+    <Compile Include="baselines\common\tf_util.py" />
+    <Compile Include="baselines\common\vec_env\dummy_vec_env.py" />
+    <Compile Include="baselines\common\vec_env\subproc_vec_env.py" />
+    <Compile Include="baselines\common\vec_env\vec_frame_stack.py" />
+    <Compile Include="baselines\common\vec_env\vec_normalize.py" />
+    <Compile Include="baselines\common\vec_env\__init__.py" />
+    <Compile Include="baselines\common\__init__.py" />
+    <Compile Include="baselines\ddpg\ddpg.py" />
+    <Compile Include="baselines\ddpg\main.py" />
+    <Compile Include="baselines\ddpg\memory.py" />
+    <Compile Include="baselines\ddpg\models.py" />
+    <Compile Include="baselines\ddpg\noise.py" />
+    <Compile Include="baselines\ddpg\training.py" />
+    <Compile Include="baselines\ddpg\__init__.py" />
+    <Compile Include="baselines\deepq\build_graph.py" />
+    <Compile Include="baselines\deepq\experiments\custom_cartpole.py" />
+    <Compile Include="baselines\deepq\experiments\enjoy_cartpole.py" />
+    <Compile Include="baselines\deepq\experiments\enjoy_mountaincar.py" />
+    <Compile Include="baselines\deepq\experiments\enjoy_pong.py" />
+    <Compile Include="baselines\deepq\experiments\run_atari.py" />
+    <Compile Include="baselines\deepq\experiments\train_cartpole.py" />
+    <Compile Include="baselines\deepq\experiments\train_mountaincar.py" />
+    <Compile Include="baselines\deepq\experiments\__init__.py" />
+    <Compile Include="baselines\deepq\models.py" />
+    <Compile Include="baselines\deepq\replay_buffer.py" />
+    <Compile Include="baselines\deepq\simple.py" />
+    <Compile Include="baselines\deepq\utils.py" />
+    <Compile Include="baselines\deepq\__init__.py" />
+    <Compile Include="baselines\gail\adversary.py" />
+    <Compile Include="baselines\gail\behavior_clone.py" />
+    <Compile Include="baselines\gail\dataset\mujoco_dset.py" />
+    <Compile Include="baselines\gail\dataset\__init__.py" />
+    <Compile Include="baselines\gail\gail-eval.py" />
+    <Compile Include="baselines\gail\mlp_policy.py" />
+    <Compile Include="baselines\gail\run_mujoco.py" />
+    <Compile Include="baselines\gail\statistics.py" />
+    <Compile Include="baselines\gail\trpo_mpi.py" />
+    <Compile Include="baselines\gail\__init__.py" />
+    <Compile Include="baselines\her\actor_critic.py" />
+    <Compile Include="baselines\her\ddpg.py" />
+    <Compile Include="baselines\her\experiment\config.py" />
+    <Compile Include="baselines\her\experiment\play.py" />
+    <Compile Include="baselines\her\experiment\plot.py" />
+    <Compile Include="baselines\her\experiment\train.py" />
+    <Compile Include="baselines\her\experiment\__init__.py" />
+    <Compile Include="baselines\her\her.py" />
+    <Compile Include="baselines\her\normalizer.py" />
+    <Compile Include="baselines\her\replay_buffer.py" />
+    <Compile Include="baselines\her\rollout.py" />
+    <Compile Include="baselines\her\util.py" />
+    <Compile Include="baselines\her\__init__.py" />
+    <Compile Include="baselines\logger.py" />
+    <Compile Include="baselines\ppo1\cnn_policy.py" />
+    <Compile Include="baselines\ppo1\mlp_policy.py" />
+    <Compile Include="baselines\ppo1\pposgd_simple.py" />
+    <Compile Include="baselines\ppo1\run_atari.py" />
+    <Compile Include="baselines\ppo1\run_mujoco.py" />
+    <Compile Include="baselines\ppo1\__init__.py" />
+    <Compile Include="baselines\ppo2\policies.py" />
+    <Compile Include="baselines\ppo2\ppo2.py" />
+    <Compile Include="baselines\ppo2\run_atari.py" />
+    <Compile Include="baselines\ppo2\run_mujoco.py" />
+    <Compile Include="baselines\ppo2\__init__.py" />
+    <Compile Include="baselines\results_plotter.py" />
+    <Compile Include="baselines\trpo_mpi\nosharing_cnn_policy.py" />
+    <Compile Include="baselines\trpo_mpi\run_atari.py" />
+    <Compile Include="baselines\trpo_mpi\run_mujoco.py" />
+    <Compile Include="baselines\trpo_mpi\trpo_mpi.py" />
+    <Compile Include="baselines\trpo_mpi\__init__.py" />
+    <Compile Include="baselines\__init__.py" />
+    <Compile Include="setup.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="baselines\gail\result\HalfCheetah-normalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\HalfCheetah-normalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\halfcheetah-training.png" />
+    <Content Include="baselines\gail\result\HalfCheetah-unnormalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\HalfCheetah-unnormalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\Hopper-normalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\Hopper-normalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\hopper-training.png" />
+    <Content Include="baselines\gail\result\Hopper-unnormalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\Hopper-unnormalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\Humanoid-normalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\Humanoid-normalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\humanoid-training.png" />
+    <Content Include="baselines\gail\result\Humanoid-unnormalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\Humanoid-unnormalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\HumanoidStandup-normalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\HumanoidStandup-normalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\humanoidstandup-training.png" />
+    <Content Include="baselines\gail\result\HumanoidStandup-unnormalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\HumanoidStandup-unnormalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\Walker2d-normalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\Walker2d-normalized-stochastic-scores.png" />
+    <Content Include="baselines\gail\result\walker2d-training.png" />
+    <Content Include="baselines\gail\result\Walker2d-unnormalized-deterministic-scores.png" />
+    <Content Include="baselines\gail\result\Walker2d-unnormalized-stochastic-scores.png" />
+    <Content Include="data\cartpole.gif" />
+    <Content Include="data\logo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="baselines" />
+    <Folder Include="baselines\a2c" />
+    <Folder Include="baselines\acer" />
+    <Folder Include="baselines\acktr" />
+    <Folder Include="baselines\bench" />
+    <Folder Include="baselines\common" />
+    <Folder Include="baselines\common\tests" />
+    <Folder Include="baselines\common\vec_env" />
+    <Folder Include="baselines\ddpg" />
+    <Folder Include="baselines\deepq" />
+    <Folder Include="baselines\deepq\experiments" />
+    <Folder Include="baselines\gail" />
+    <Folder Include="baselines\gail\dataset" />
+    <Folder Include="baselines\gail\result" />
+    <Folder Include="baselines\her" />
+    <Folder Include="baselines\her\experiment" />
+    <Folder Include="baselines\ppo1" />
+    <Folder Include="baselines\ppo2" />
+    <Folder Include="baselines\trpo_mpi" />
+    <Folder Include="data" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterpreterReference Include="Global|PythonCore|3.6" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+</Project>
