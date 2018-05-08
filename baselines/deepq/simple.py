@@ -231,6 +231,7 @@ def learn(env,
                 update_param_noise_threshold = 0.
             elif state_noise:
                 update_eps = 0.
+                update_state_noise_threshold = -np.log(1. - exploration.value(t) + exploration.value(t) / float(env.action_space.n))
                 kwargs['reset'] = reset
                 kwargs['update_state_noise_threshold'] = update_state_noise_threshold
                 kwargs['update_state_noise_scale'] = True
