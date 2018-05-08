@@ -42,8 +42,8 @@ def main():
         gamma=0.99,
         prioritized_replay=bool(args.prioritized),
         prioritized_replay_alpha=args.prioritized_replay_alpha,
-        param_noise=args.param-noise,
-        state_noise=args.state-noise
+        param_noise=args.param_noise,
+        state_noise=args.state_noise
     )
 
     env.close()
