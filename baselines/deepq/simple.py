@@ -97,6 +97,7 @@ def learn(env,
           prioritized_replay_beta_iters=None,
           prioritized_replay_eps=1e-6,
           param_noise=False,
+          state_noise=False,
           callback=None):
     """Train a deepq model.
 
@@ -225,10 +226,16 @@ def learn(env,
                     break
             # Take action and update exploration to the newest value
             kwargs = {}
-            if not param_noise:
+            if not param_noise and not state_noise:
                 update_eps = exploration.value(t)
                 update_param_noise_threshold = 0.
+            elif state_noise:
+                update_eps = 0.
+                # kwargs['reset'] = reset
+                # kwargs['update_state_noise_threshold'] = update_state_noise_threshold
+                # kwargs['update_state_noise_scale'] = True
             else:
+                assert param_noise
                 update_eps = 0.
                 # Compute the threshold such that the KL divergence between perturbed and non-perturbed
                 # policy is comparable to eps-greedy exploration with eps = exploration.value(t).

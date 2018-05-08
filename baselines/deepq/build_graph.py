@@ -198,6 +198,73 @@ def build_act(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None):
             return _act(ob, stochastic, update_eps)
         return act
 
+def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None):
+    with tf.variable_scope(scope, reuse=reuse):
+        observations_ph = make_obs_ph("observation")
+        stochastic_ph = tf.placeholder(tf.bool, (), name="stochastic")
+        update_eps_ph = tf.placeholder(tf.float32, (), name="update_eps")
+        # update_param_noise_threshold_ph = tf.placeholder(tf.float32, (), name="update_param_noise_threshold")
+        # update_param_noise_scale_ph = tf.placeholder(tf.bool, (), name="update_param_noise_scale")
+        reset_ph = tf.placeholder(tf.bool, (), name="reset")
+
+        eps = tf.get_variable("eps", (), initializer=tf.constant_initializer(0))
+        state_noise_scale = tf.get_variable("state_noise_scale", (), initializer=tf.constant_initializer(0.01), trainable=False)
+        state_noise_threshold = tf.get_variable("state_noise_threshold", (), initializer=tf.constant_initializer(0.05), trainable=False)
+
+        # Unmodified Q.
+        q_values = q_func(observations_ph.get(), num_actions, scope="q_func")
+
+        # Pertubable state for rollout
+        state_noise = tf.get_variable(name='state_noise', shape=tf.shape(observations_ph), trainable=False)
+
+        # Perturbable Q used for the actual rollout.
+        q_values_perturbed = q_func(observations_ph.get() + state_noise, num_actions, scope="perturbed_q_func")
+
+        def perturb_state_noise():
+            op = tf.assign(state_noise, tf.zero(shape=tf.shape(observations_ph), mean=0., stddev=state_noise_scale))
+            return tf.group(*[op])
+
+        # Set up functionality to re-compute `param_noise_scale`. This perturbs yet another copy
+        # of the network and measures the effect of that perturbation in action space. If the perturbation
+        # is too big, reduce scale of perturbation, otherwise increase.
+        #q_values_adaptive = q_func(observations_ph.get(), num_actions, scope="adaptive_q_func")
+        #perturb_for_adaption = perturb_vars(original_scope="q_func", perturbed_scope="adaptive_q_func")
+        kl = tf.reduce_sum(tf.nn.softmax(q_values) * (tf.log(tf.nn.softmax(q_values)) - tf.log(tf.nn.softmax(q_values_pertubed))), axis=-1)
+        mean_kl = tf.reduce_mean(kl)
+        def update_scale():
+            with tf.control_dependencies([q_value_pertubed]):
+                update_scale_expr = tf.cond(mean_kl < state_noise_threshold,
+                    lambda: state_noise_scale.assign(state_noise_scale * 1.01),
+                    lambda: state_noise_scale.assign(state_noise_scale / 1.01),
+                )
+            return update_scale_expr
+
+        # Functionality to update the threshold for parameter space noise.
+        update_state_noise_threshold_expr = state_noise_threshold.assign(tf.cond(update_state_noise_threshold_ph >= 0,
+            lambda: update_state_noise_threshold_ph, lambda: state_noise_threshold))
+
+        # Put everything together.
+        deterministic_actions = tf.argmax(q_values_perturbed, axis=1)
+        batch_size = tf.shape(observations_ph.get())[0]
+        random_actions = tf.random_uniform(tf.stack([batch_size]), minval=0, maxval=num_actions, dtype=tf.int64)
+        chose_random = tf.random_uniform(tf.stack([batch_size]), minval=0, maxval=1, dtype=tf.float32) < eps # NOTE(feiga): should be always false since eps is set equal to 0
+        stochastic_actions = tf.where(chose_random, random_actions, deterministic_actions) # NOTE(feiga): always using deterministic actions, which has already explored by parameter perturbation
+
+        output_actions = tf.cond(stochastic_ph, lambda: stochastic_actions, lambda: deterministic_actions)
+        update_eps_expr = eps.assign(tf.cond(update_eps_ph >= 0, lambda: update_eps_ph, lambda: eps))
+        updates = [
+            update_eps_expr,
+            tf.cond(reset_ph, lambda: perturb_state_noise(), lambda: tf.group(*[])),
+            tf.cond(update_state_noise_scale_ph, lambda: update_scale(), lambda: tf.Variable(0., trainable=False)),
+            update_state_noise_threshold_expr,
+        ]
+        _act = U.function(inputs=[observations_ph, stochastic_ph, update_eps_ph, reset_ph, update_state_noise_threshold_ph, update_state_noise_scale_ph],
+                         outputs=output_actions,
+                         givens={update_eps_ph: -1.0, stochastic_ph: True, reset_ph: False, update_state_noise_threshold_ph: False, update_state_noise_scale_ph: False},
+                         updates=updates)
+        def act(ob, reset, update_param_noise_threshold, update_param_noise_scale, stochastic=True, update_eps=-1):
+            return _act(ob, stochastic, update_eps, reset, update_state_noise_threshold, update_state_noise_scale)
+        return act
 
 def build_act_with_param_noise(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None, param_noise_filter_func=None):
     """Creates the act function with support for parameter space noise exploration (https://arxiv.org/abs/1706.01905):

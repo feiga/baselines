@@ -27,11 +27,26 @@ class AdaptiveParamNoiseSpec(object):
         fmt = 'AdaptiveParamNoiseSpec(initial_stddev={}, desired_action_stddev={}, adoption_coefficient={})'
         return fmt.format(self.initial_stddev, self.desired_action_stddev, self.adoption_coefficient)
 
-
-class ActionNoise(object):
+class StateNoise(object):
     def reset(self):
         pass
 
+class NormalStateNoise(StateNoise):
+    def __init__(self, mu, sigma, size):
+        self.mu = mu
+        self.sigma = sigma
+        self.size = size
+
+    def __call__(self):
+        return np.random.normal(self.mu, self.sigma, self.size)
+
+    def __repr__(self):
+        return 'NormalStateNoise(mu={}, sigma={}, size={}'.format(self.mu, self.sigma)
+
+
+class ActionNoise(object):
+    def reset(self):
+        pass    
 
 class NormalActionNoise(ActionNoise):
     def __init__(self, mu, sigma):
