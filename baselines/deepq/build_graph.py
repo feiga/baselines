@@ -220,7 +220,7 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
         # Perturbable Q used for the actual rollout.
         q_values_perturbed = q_func(observations_ph.get() + state_noise, num_actions, scope="perturbed_q_func")
 
-        def perturb_state_noise(batch_size):
+        def perturb_state_noise():
             op = tf.assign(state_noise, tf.random_normal(shape=tf.shape(observations_ph.get()), mean=0., stddev=state_noise_scale))
             return tf.group(*[op])
 
