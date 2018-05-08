@@ -231,9 +231,9 @@ def learn(env,
                 update_param_noise_threshold = 0.
             elif state_noise:
                 update_eps = 0.
-                # kwargs['reset'] = reset
-                # kwargs['update_state_noise_threshold'] = update_state_noise_threshold
-                # kwargs['update_state_noise_scale'] = True
+                kwargs['reset'] = reset
+                kwargs['update_state_noise_threshold'] = update_state_noise_threshold
+                kwargs['update_state_noise_scale'] = True
             else:
                 assert param_noise
                 update_eps = 0.
