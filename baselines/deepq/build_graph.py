@@ -215,7 +215,7 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
         q_values = q_func(observations_ph.get(), num_actions, scope="q_func")
 
         # Pertubable state for rollout
-        state_noise = tf.get_variable('state_noise', shape=tf.shape(observations_ph.get()), initializer=tf.constant_initializer(0), trainable=False)
+        state_noise = tf.get_variable('state_noise', shape=[tf.shape(observations_ph.get())[0], 84, 84, 4], initializer=tf.constant_initializer(0), trainable=False)
 
         # Perturbable Q used for the actual rollout.
         q_values_perturbed = q_func(observations_ph.get() + state_noise, num_actions, scope="perturbed_q_func")
