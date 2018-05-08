@@ -203,8 +203,8 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
         observations_ph = make_obs_ph("observation")
         stochastic_ph = tf.placeholder(tf.bool, (), name="stochastic")
         update_eps_ph = tf.placeholder(tf.float32, (), name="update_eps")
-        update_param_noise_threshold_ph = tf.placeholder(tf.float32, (), name="update_param_noise_threshold")
-        update_param_noise_scale_ph = tf.placeholder(tf.bool, (), name="update_param_noise_scale")
+        update_state_noise_threshold_ph = tf.placeholder(tf.float32, (), name="update_state_noise_threshold")
+        update_state_noise_scale_ph = tf.placeholder(tf.bool, (), name="update_state_noise_scale")
         reset_ph = tf.placeholder(tf.bool, (), name="reset")
 
         eps = tf.get_variable("eps", (), initializer=tf.constant_initializer(0))
