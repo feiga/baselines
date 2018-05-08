@@ -229,7 +229,7 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
         # is too big, reduce scale of perturbation, otherwise increase.
         #q_values_adaptive = q_func(observations_ph.get(), num_actions, scope="adaptive_q_func")
         #perturb_for_adaption = perturb_vars(original_scope="q_func", perturbed_scope="adaptive_q_func")
-        kl = tf.reduce_sum(tf.nn.softmax(q_values) * (tf.log(tf.nn.softmax(q_values)) - tf.log(tf.nn.softmax(q_values_pertubed))), axis=-1)
+        kl = tf.reduce_sum(tf.nn.softmax(q_values) * (tf.log(tf.nn.softmax(q_values)) - tf.log(tf.nn.softmax(q_values_perturbed))), axis=-1)
         mean_kl = tf.reduce_mean(kl)
         def update_scale():
             with tf.control_dependencies([q_value_pertubed]):
