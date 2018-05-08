@@ -198,7 +198,7 @@ def build_act(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None):
             return _act(ob, stochastic, update_eps)
         return act
 
-def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None):
+def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", reuse=None, state_shape=None):
     with tf.variable_scope(scope, reuse=reuse):
         observations_ph = make_obs_ph("observation")
         stochastic_ph = tf.placeholder(tf.bool, (), name="stochastic")
@@ -215,12 +215,12 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
         q_values = q_func(observations_ph.get(), num_actions, scope="q_func")
 
         # Pertubable state for rollout
-        state_noise = tf.get_variable('state_noise', shape=[tf.shape(observations_ph.get())[0], 84, 84, 4], initializer=tf.constant_initializer(0), trainable=False)
+        state_noise = tf.get_variable('state_noise', shape=[1] + list(state_shape+, initializer=tf.constant_initializer(0), trainable=False)
 
         # Perturbable Q used for the actual rollout.
         q_values_perturbed = q_func(observations_ph.get() + state_noise, num_actions, scope="perturbed_q_func")
 
-        def perturb_state_noise():
+        def perturb_state_noise(batch_size):
             op = tf.assign(state_noise, tf.random_normal(shape=tf.shape(observations_ph.get()), mean=0., stddev=state_noise_scale))
             return tf.group(*[op])
 
@@ -382,7 +382,7 @@ def build_act_with_param_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
 
 
 def build_train(make_obs_ph, q_func, num_actions, optimizer, grad_norm_clipping=None, gamma=1.0,
-    double_q=True, scope="deepq", reuse=None, param_noise=False, state_noise=False, param_noise_filter_func=None):
+    double_q=True, scope="deepq", reuse=None, param_noise=False, state_noise=False, param_noise_filter_func=None, state_shape=None):
     """Creates the train function:
 
     Parameters
@@ -440,7 +440,7 @@ def build_train(make_obs_ph, q_func, num_actions, optimizer, grad_norm_clipping=
         act_f = build_act_with_param_noise(make_obs_ph, q_func, num_actions, scope=scope, reuse=reuse,
             param_noise_filter_func=param_noise_filter_func)
     elif state_noise:
-        act_f = build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope=scope, reuse=reuse)
+        act_f = build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope=scope, reuse=reuse, state_shape=state_shape)
     else:
         act_f = build_act(make_obs_ph, q_func, num_actions, scope=scope, reuse=reuse)
 
