@@ -184,6 +184,7 @@ def learn(env,
         grad_norm_clipping=10,
         param_noise=param_noise,
         state_noise=state_noise,
+        state_shape=observation_space_shape,
     )
 
     act_params = {
