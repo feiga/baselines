@@ -262,7 +262,7 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
                          outputs=output_actions,
                          givens={update_eps_ph: -1.0, stochastic_ph: True, reset_ph: False, update_state_noise_threshold_ph: False, update_state_noise_scale_ph: False},
                          updates=updates)
-        def act(ob, reset, update_param_noise_threshold, update_param_noise_scale, stochastic=True, update_eps=-1):
+        def act(ob, reset, update_state_noise_threshold, update_state_noise_scale, stochastic=True, update_eps=-1):
             return _act(ob, stochastic, update_eps, reset, update_state_noise_threshold, update_state_noise_scale)
         return act
 
