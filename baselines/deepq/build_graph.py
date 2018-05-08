@@ -232,7 +232,7 @@ def build_act_with_state_noise(make_obs_ph, q_func, num_actions, scope="deepq", 
         kl = tf.reduce_sum(tf.nn.softmax(q_values) * (tf.log(tf.nn.softmax(q_values)) - tf.log(tf.nn.softmax(q_values_perturbed))), axis=-1)
         mean_kl = tf.reduce_mean(kl)
         def update_scale():
-            with tf.control_dependencies([q_value_pertubed]):
+            with tf.control_dependencies([q_values_perturbed]):
                 update_scale_expr = tf.cond(mean_kl < state_noise_threshold,
                     lambda: state_noise_scale.assign(state_noise_scale * 1.01),
                     lambda: state_noise_scale.assign(state_noise_scale / 1.01),
