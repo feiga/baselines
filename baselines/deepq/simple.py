@@ -96,6 +96,7 @@ def learn(env,
           prioritized_replay_beta0=0.4,
           prioritized_replay_beta_iters=None,
           prioritized_replay_eps=1e-6,
+          action_noise=True,
           param_noise=False,
           state_noise=False,
           callback=None):
@@ -208,8 +209,8 @@ def learn(env,
         beta_schedule = None
     # Create the schedule for exploration starting from 1.
     exploration = LinearSchedule(schedule_timesteps=int(exploration_fraction * max_timesteps),
-                                 initial_p=1.0,
-                                 final_p=exploration_final_eps)
+                                 initial_p=1.0 if action_noise else 0,
+                                 final_p=exploration_final_eps if action_noise else 0)
 
     # Initialize the parameters and copy them to the target network.
     U.initialize()

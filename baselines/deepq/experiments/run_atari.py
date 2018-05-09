@@ -14,6 +14,7 @@ def main():
     parser.add_argument('--prioritized-replay-alpha', type=float, default=0.6)
     parser.add_argument('--dueling', type=int, default=1)
     parser.add_argument('--num-timesteps', type=int, default=int(10e6))
+    parser.add_argument('--action-noise', type=bool, default=True)
     parser.add_argument('--param-noise', type=bool, default=False)
     parser.add_argument('--state-noise', type=bool, default=False)
     args = parser.parse_args()
@@ -42,6 +43,7 @@ def main():
         gamma=0.99,
         prioritized_replay=bool(args.prioritized),
         prioritized_replay_alpha=args.prioritized_replay_alpha,
+        action_noise=args.action_noise,
         param_noise=args.param_noise,
         state_noise=args.state_noise
     )
