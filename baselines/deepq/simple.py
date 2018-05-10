@@ -167,7 +167,9 @@ def learn(env,
     """
     # Create all the functions necessary to train the model
 
-    sess = tf.Session()
+    gpu_option = tf.GPUOptions(per_process_gpu_memory_fraction=0.3)
+    sess = tf.Session(config=tf.ConfigProto(gpu_options=gpu_option))
+
     sess.__enter__()
 
     # capture the shape outside the closure so that the env object is not serialized
